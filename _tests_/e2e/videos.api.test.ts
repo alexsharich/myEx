@@ -49,10 +49,26 @@ describe('/courses',()=>{
             availableResolutions: [createdVideo.availableResolutions[0]]
         }])
     })
+    it('should create one more video',async()=>{
+        const createdResponse = await request(app).post('/videos/').send({
+            id: id2,
+            title: 'new video',
+            author: 'I am',
+            canBeDownloaded: true,
+            minAgeRestriction: null,
+            createdAt: new Date(),
+            publicationDate: new Date(),
+            availableResolutions: ['P144']
+        }).expect(HTTP_STATUSES.CREATED_201)
+
+        createdVideoSecond = createdResponse.body
+
+        await request(app).get(`/videos`).expect(HTTP_STATUSES.OK_200,[createdVideo,createdVideoSecond])
+    })
     it('should not update video',async ()=>{
         await request(app).put(`/videos/${id1}`).send({title:''}).expect(HTTP_STATUSES.BAD_REQUEST_400)
 
-        await request(app).get(`/videos/`).expect(HTTP_STATUSES.OK_200,[createdVideo])
+        await request(app).get(`/videos`).expect(HTTP_STATUSES.OK_200,[createdVideo,createdVideoSecond])
     })
 
     it('should update video',async ()=>{
@@ -68,22 +84,7 @@ describe('/courses',()=>{
 
         await request(app).get(`/videos/${createdVideo.id}`).expect(HTTP_STATUSES.OK_200)
     })
-    it('should create one more video',async()=>{
-        const createdResponse = await request(app).post('/videos/').send({
-            id: id2,
-            title: 'new video',
-            author: 'I am',
-            canBeDownloaded: true,
-            minAgeRestriction: null,
-            createdAt: new Date(),
-            publicationDate: new Date(),
-            availableResolutions: ['P144']
-        }).expect(HTTP_STATUSES.CREATED_201)
 
-        createdVideoSecond = createdResponse.body
-
-        await request(app).get(`/videos/`).expect(HTTP_STATUSES.OK_200,[createdVideo,createdVideoSecond])
-    })
 
 
 

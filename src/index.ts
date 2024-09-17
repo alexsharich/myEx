@@ -73,8 +73,8 @@ app.get('/videos',(req:RequestWithQueryHW1<GetVideosQueryModel>,res:Response<Vid
 })
 
 app.post('/videos',(req:RequestWithBodyHW1<CreateVideoInputModel>,res:Response<VideoType | ErrorType>)=>{
-    if(!req.body.title){
-        res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400).send({
+    if(!req.body.title || req.body.title.length > 40 || !req.body.author || req.body.author.length > 20){
+        res.status(HTTP_STATUSES.BAD_REQUEST_400).send({
             errorsMessages: [
                 {
                     "message": "Incorrect !",
@@ -85,9 +85,6 @@ app.post('/videos',(req:RequestWithBodyHW1<CreateVideoInputModel>,res:Response<V
         return
     }
 
-
-
-
     const createdVideo: VideoType ={
         id: +(new Date()),
         title: req.body.title,
@@ -96,7 +93,7 @@ app.post('/videos',(req:RequestWithBodyHW1<CreateVideoInputModel>,res:Response<V
         minAgeRestriction: null,
         createdAt: new Date().toISOString(),
         publicationDate: new Date().toISOString(),
-        availableResolutions: ['P144']
+        availableResolutions: req.body.availableResolutions
 
     }
     HW1DB.videos.push(createdVideo)
@@ -119,8 +116,11 @@ app.put('/videos/:id',(req:RequestWithParamsAndBodyHW1<{id:string},UpdateVideoIn
         || !req.body.minAgeRestriction
         || !req.body.publicationDate*/
          !req.body.author
-        || !req.body.title ){
-        res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400).send({
+        || req.body.author.length > 20
+        || req.body.title.length > 40
+        || !req.body.title
+        || req.body.title.trim() === '' ){
+        res.status(HTTP_STATUSES.BAD_REQUEST_400).send({
             errorsMessages: [
                 {
                     message: "Incorrect !",
@@ -137,17 +137,15 @@ app.put('/videos/:id',(req:RequestWithParamsAndBodyHW1<{id:string},UpdateVideoIn
         return
     }
 
-    foundedVideo = {
-        id: foundedVideo.id,
-        title: req.body.title,
-        author: req.body.author,
-        canBeDownloaded: true,
-        minAgeRestriction: req.body.minAgeRestriction,
-        createdAt: foundedVideo.createdAt,
-        publicationDate: req.body.publicationDate,
-        availableResolutions: [req.body.availableResolutions[0]]
-    }
-    res.sendStatus(HTTP_STATUSES.CREATED_201).json(
+
+        foundedVideo.title= req.body.title,
+        foundedVideo.author= req.body.author,
+        foundedVideo.canBeDownloaded= true,
+        foundedVideo.minAgeRestriction= req.body.minAgeRestriction,
+        foundedVideo.publicationDate= req.body.publicationDate,
+        foundedVideo.availableResolutions= [req.body.availableResolutions[0]]
+
+    res.status(HTTP_STATUSES.CREATED_201).json(
     {
         title: foundedVideo.title,
         author: foundedVideo.author,
@@ -160,7 +158,7 @@ app.put('/videos/:id',(req:RequestWithParamsAndBodyHW1<{id:string},UpdateVideoIn
 })
 app.delete('/videos/:id',(req,res)=>{
     if(!req.params.id){
-        res.status(HTTP_STATUSES.NOT_FOUND_404)
+        res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
     }
     HW1DB.videos = HW1DB.videos.filter(video=>video.id !== +req.params.id)
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204)
