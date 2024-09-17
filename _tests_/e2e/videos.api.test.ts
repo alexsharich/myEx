@@ -38,7 +38,7 @@ describe('/courses',()=>{
             availableResolutions: ['P144']
         }).expect(HTTP_STATUSES.CREATED_201)
         createdVideo = createdResonse.body
-        await request(app).get('/videos/').expect(HTTP_STATUSES.OK_200,[{
+        await request(app).get('/videos').expect(HTTP_STATUSES.OK_200,[{
             id: createdVideo.id,
             title: createdVideo.title ,
             author: createdVideo.author,
@@ -90,7 +90,7 @@ describe('/courses',()=>{
 
     it('should delete video',async()=>{
         await request(app).delete('/videos/' + createdVideo.id).expect(HTTP_STATUSES.NO_CONTENT_204)
-        await request(app).get('/videos/' + createdVideo.id).expect(HTTP_STATUSES.NOT_FOUND_404)
+        await request(app).get('/videos' + createdVideo.id).expect(HTTP_STATUSES.NOT_FOUND_404)
         await request(app).get('/videos').expect(HTTP_STATUSES.OK_200,[createdVideoSecond])
     })
 
