@@ -25,10 +25,10 @@ const inputValidation = (video: any) => {
         })
     }
     if (!Array.isArray(video.availableResolutions)
-        || video.availableResolutions.find(p => !Resolutions[p])
+        || video.availableResolutions.some(item => Object.values(Resolutions).includes(item))
     ) {
         errors.errorsMessages.push({
-            message: 'error!!!!', field: 'availableResolution'
+            message: 'error!!!!', field: 'availableResolutions'
         })
     }
     return errors
