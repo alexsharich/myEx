@@ -24,6 +24,13 @@ const inputValidation = (video: any) => {
             message: 'error!!!!', field: 'author'
         })
     }
+    if (!Array.isArray(video.availableResolution)
+        || video.availableResolution.find(p => !Resolutions[p])
+    ) {
+        errors.errorsMessages.push({
+            message: 'error!!!!', field: 'availableResolution'
+        })
+    }
     return errors
 }
 
