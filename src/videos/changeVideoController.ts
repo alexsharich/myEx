@@ -17,25 +17,41 @@ export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
     id: string
 }, UpdatingVideoType>, res: any) => {
     const foundedVideo = db.videos.find((video: VideoDBType) => video.id === +req.params.id)
+    const  errorsMessages =[]
     if (!foundedVideo) {
         res.sendStatus(404)
     }
-    if (!req.body.author
-        ||!req.body.title
-        ||!req.body.availableResolutions
-        ||req.body.title.length > 40
-        ||req.body.author.length > 20) {
-        /*validation data*/
-        res.status(400).json({
-            errorsMessages: [
-                {
-                    message: "string",
-                    field: "title"
-                }
-            ]
+    if(!req.body.author||req.body.author.length > 20 || req.body.author ===null){
+        errorsMessages.push({
+            message: "string",
+            field: "title"
         })
+        res.status(400).json(
+            errorsMessages
+        )
+    }
+    if (!req.body.title
+        || req.body.title === null
+        ||req.body.title.length > 40
+        ) {
+        errorsMessages.push({
+            message: "string",
+            field: "title"
+        })
+        res.status(400).json(errorsMessages)
         return
     }
+        if (!req.body.canBeDownloaded
+            || !!req.body.canBeDownloaded
+        ) {
+            errorsMessages.push({
+                message: "string",
+                field: "canBeDownloaded"
+            })
+            res.status(400).json(errorsMessages)
+            return
+        }
+
 
         foundedVideo.title = req.body.title,
         foundedVideo.author = req.body.author,
