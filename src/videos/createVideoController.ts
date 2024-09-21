@@ -29,7 +29,7 @@ const now = Date.now()
     // если всё ок - добавляем видео
 
     const newVideo= {
-        id:Date.now() ,
+        id: new Date().toISOString() ,
         title:req.body.title,
         author:req.body.author,
         createdAt:createdAtISO,
