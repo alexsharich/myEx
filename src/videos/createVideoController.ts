@@ -4,29 +4,37 @@ import {OutputErrorsType} from "../input-output-types/output-errors-type";
 import {db} from "../db/db";
 import {VideoDBType} from "../db/video-db-type";
 
+const inputValidation = (video: any) => {
+    const errors = { // объект для сбора ошибок
+        errorsMessages: []
+    }
+// ...
 
+    if(video.title
+        || video.title === null
+        || video.title.length > 40){
+        errors.errorsMessages.push({
+            message: 'error!!!!', field: 'title'
+        })
+    }
+    if(video.author
+        ||video.author.length > 20
+        || video.author ===null){
+        errors.errorsMessages.push({
+            message: 'error!!!!', field: 'author'
+        })
+    }
+    return errors
+}
 
 export const createVideoController = (req: Request<any, any, InputVideoType>, res:any) => {
-const errorsMessages = []
-    if(!req.body.author
-        ||req.body.author.length > 20
-        || req.body.author ===null){
-        errorsMessages.push({
-            message: "string",
-            field: "author"
-        })
-        res.status(400).send({errorsMessages})
-    }
-    if (!req.body.title
-        || req.body.title === null
-        || req.body.title.length > 40
-    ) {
-        errorsMessages.push({
-            message: "string",
-            field: "title"
-        })
-        res.status(400).send({errorsMessages})
+    const errors = inputValidation(req.body)
+    if (errors.errorsMessages.length) { // если есть ошибки - отправляем ошибки
+        res
+            .status(400)
+            .json(errors)
         return
+        // return res.status(400).json(errors)
     }
 
 const now = Date.now()
