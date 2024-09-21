@@ -37,7 +37,7 @@ export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
             field: "title"
         })
         res.status(400).json({errorsMessages})
-        return
+
     }
     if (!req.body.canBeDownloaded
 || typeof req.body.canBeDownloaded !== 'boolean'
