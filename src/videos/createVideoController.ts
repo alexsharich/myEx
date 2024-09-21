@@ -7,24 +7,24 @@ import {VideoDBType} from "../db/video-db-type";
 
 
 export const createVideoController = (req: Request<any, any, InputVideoType>, res:any) => {
-
-    if (!req.body.author
-    ||!req.body.title
-    ||!req.body.availableResolutions
-    ||req.body.title.length > 40
-    ||req.body.author.length > 20) { // если есть ошибки - отправляем ошибки
-        res
-            .send(400).json(
-            {
-                errorsMessages: [
-                    {
-                        message: "string",
-                        field: "title"
-                    }
-                ]
-            }
-        )
-return
+const errorsMessages = []
+    if(!req.body.author||req.body.author.length > 20 || req.body.author ===null){
+        errorsMessages.push({
+            message: "string",
+            field: "author"
+        })
+        res.status(400).json({errorsMessages})
+    }
+    if (!req.body.title
+        || req.body.title === null
+        ||req.body.title.length > 40
+    ) {
+        errorsMessages.push({
+            message: "string",
+            field: "title"
+        })
+        res.status(400).json({errorsMessages})
+        return
     }
 
 const now = Date.now()

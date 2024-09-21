@@ -17,49 +17,47 @@ export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
     id: string
 }, UpdatingVideoType>, res: any) => {
     const foundedVideo = db.videos.find((video: VideoDBType) => video.id === +req.params.id)
-    const  errorsMessages =[]
+    const errorsMessages = []
     if (!foundedVideo) {
         res.sendStatus(404)
     }
-    if(!req.body.author||req.body.author.length > 20 || req.body.author ===null){
+    if (!req.body.author || req.body.author.length > 20 || req.body.author === null) {
         errorsMessages.push({
             message: "string",
-            field: "title"
+            field: "author"
         })
-        res.status(400).json(
-            errorsMessages
-        )
+        res.status(400).json({errorsMessages})
     }
     if (!req.body.title
         || req.body.title === null
-        ||req.body.title.length > 40
-        ) {
+        || req.body.title.length > 40
+    ) {
         errorsMessages.push({
             message: "string",
             field: "title"
         })
-        res.status(400).json(errorsMessages)
+        res.status(400).json({errorsMessages})
         return
     }
-        if (!req.body.canBeDownloaded
-            || !!req.body.canBeDownloaded
-        ) {
-            errorsMessages.push({
-                message: "string",
-                field: "canBeDownloaded"
-            })
-            res.status(400).json(errorsMessages)
-            return
-        }
+    if (!req.body.canBeDownloaded
+        || !!req.body.canBeDownloaded
+    ) {
+        errorsMessages.push({
+            message: "string",
+            field: "canBeDownloaded"
+        })
+        res.status(400).json({errorsMessages})
+        return
+    }
 
 
-        foundedVideo.title = req.body.title,
+    foundedVideo.title = req.body.title,
         foundedVideo.author = req.body.author,
         foundedVideo.availableResolutions = req.body.availableResolutions,
         foundedVideo.canBeDownloaded = req.body.canBeDownloaded,
         foundedVideo.minAgeRestriction = req.body.minAgeRestriction,
         foundedVideo.publicationDate = req.body.publicationDate
 
-    db.videos = db.videos.map((video:VideoDBType)=>video.id === +req.params.id ? {...foundedVideo} : video)
+    db.videos = db.videos.map((video: VideoDBType) => video.id === +req.params.id ? {...foundedVideo} : video)
     res.sendStatus(204)
 }
