@@ -13,6 +13,8 @@ type UpdatingVideoType = {
 }
 
 export type RequestWithParamsAndBodyHW1<T, B> = Request<T, {}, B>
+
+
 export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
     id: string
 }, UpdatingVideoType>, res: any) => {
