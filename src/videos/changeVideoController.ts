@@ -27,10 +27,10 @@ export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
         ||req.body.author.length > 20) {
         /*validation data*/
         res.status(400).json({
-            "errorsMessages": [
+            errorsMessages: [
                 {
-                    "message": "string",
-                    "field": "string"
+                    message: "string",
+                    field: "title"
                 }
             ]
         })
