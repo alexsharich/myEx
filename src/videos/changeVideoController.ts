@@ -23,15 +23,15 @@ export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
     if (!foundedVideo) {
         res.sendStatus(404)
     }
-    if (!req.body.author || req.body.author.length > 20 || req.body.author === null) {
+    if (!req.body.author || req.body.author.length > 20 || typeof req.body.author !== 'string') {
         errorsMessages.push({
             message: "string",
             field: "author"
         })
         res.status(400).send({errorsMessages})
     }
-    if (!req.body.title
-        || req.body.title === null
+    else if (!req.body.title
+        || typeof req.body.title !== 'string'
         || req.body.title.length > 40
     ) {
         errorsMessages.push({
@@ -41,7 +41,7 @@ export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
         res.status(400).send({errorsMessages})
 
     }
-    if (!req.body.canBeDownloaded
+    else if (!req.body.canBeDownloaded
 || typeof req.body.canBeDownloaded !== 'boolean'
     ) {
         errorsMessages.push({
