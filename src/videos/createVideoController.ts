@@ -8,7 +8,12 @@ import {VideoDBType} from "../db/video-db-type";
 
 export const createVideoController = (req: Request<any, any, InputVideoType>, res:any) => {
 
-    if (!req.body) { // если есть ошибки - отправляем ошибки
+    if (!req.body
+    ||!req.body.author
+    ||!req.body.title
+    ||!req.body.availableResolution
+    ||req.body.title.length > 40
+    ||req.body.author.length > 20) { // если есть ошибки - отправляем ошибки
         res
             .status(400)
 
