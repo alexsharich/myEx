@@ -28,5 +28,5 @@ export type OutputVideoType = {
 export type InputVideoType = {
     title: string
     author: string
-    availableResolution: Resolutions[]
+    availableResolutions: Resolutions[]
 }

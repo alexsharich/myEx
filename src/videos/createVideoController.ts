@@ -8,10 +8,9 @@ import {VideoDBType} from "../db/video-db-type";
 
 export const createVideoController = (req: Request<any, any, InputVideoType>, res:any) => {
 
-    if (!req.body
-    ||!req.body.author
+    if (!req.body.author
     ||!req.body.title
-    ||!req.body.availableResolution
+    ||!req.body.availableResolutions
     ||req.body.title.length > 40
     ||req.body.author.length > 20) { // если есть ошибки - отправляем ошибки
         res
@@ -43,7 +42,7 @@ const now = Date.now()
         publicationDate:publicationDateISO,
         canBeDownloaded:false,
         minAgeRestriction:null,
-        availableResolutions:req.body.availableResolution
+        availableResolutions:req.body.availableResolutions
     }
     db.videos.push(newVideo)
 
