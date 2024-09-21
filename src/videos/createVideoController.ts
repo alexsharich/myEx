@@ -10,14 +10,14 @@ const inputValidation = (video: any) => {
     }
 // ...
 
-    if(video.title
+    if(!video.title
         || video.title === null
         || video.title.length > 40){
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'title'
         })
     }
-    if(video.author
+    if(!video.author
         ||video.author.length > 20
         || video.author ===null){
         errors.errorsMessages.push({
