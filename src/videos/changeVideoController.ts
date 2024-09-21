@@ -26,7 +26,7 @@ export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
             message: "string",
             field: "author"
         })
-        res.status(400).send({errorsMessages})
+        res.status(400)
     }
     if (!req.body.title
         || req.body.title === null
@@ -36,7 +36,7 @@ export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
             message: "string",
             field: "title"
         })
-        res.status(400).send({errorsMessages})
+        res.status(400)
 
     }
     if (!req.body.canBeDownloaded
