@@ -16,10 +16,10 @@ export const createVideoController = (req: Request<any, any, InputVideoType>, re
         res
             .send(400).json(
             {
-                "errorsMessages": [
+                errorsMessages: [
                     {
-                        "message": "string",
-                        "field": "string"
+                        message: "string",
+                        field: "title"
                     }
                 ]
             }
