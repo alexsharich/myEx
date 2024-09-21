@@ -20,16 +20,21 @@ export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
     if (!foundedVideo) {
         res.sendStatus(404)
     }
-    if (!req.body) {
+    if (!req.body.author
+        ||!req.body.title
+        ||!req.body.availableResolutions
+        ||req.body.title.length > 40
+        ||req.body.author.length > 20) {
         /*validation data*/
         res.status(400).json({
             "errorsMessages": [
                 {
-                    "message": "incorrect request",
+                    "message": "string",
                     "field": "string"
                 }
             ]
         })
+        return
     }
 
         foundedVideo.title = req.body.title,
