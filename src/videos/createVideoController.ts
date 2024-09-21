@@ -43,7 +43,7 @@ const now = Date.now()
         publicationDate:publicationDateISO,
         canBeDownloaded:false,
         minAgeRestriction:null,
-        availableResolutions:Resolutions.P240
+        availableResolutions:req.body.availableResolution
     }
     db.videos.push(newVideo)
 
