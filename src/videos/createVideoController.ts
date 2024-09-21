@@ -15,10 +15,17 @@ export const createVideoController = (req: Request<any, any, InputVideoType>, re
     ||req.body.title.length > 40
     ||req.body.author.length > 20) { // если есть ошибки - отправляем ошибки
         res
-            .status(400)
-
-        return
-         return res.status(400)
+            .send(400).json(
+            {
+                "errorsMessages": [
+                    {
+                        "message": "string",
+                        "field": "string"
+                    }
+                ]
+            }
+        )
+return
     }
 
 const now = Date.now()
