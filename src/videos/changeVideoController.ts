@@ -40,7 +40,7 @@ export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
         return
     }
     if (!req.body.canBeDownloaded
-        || req.body.canBeDownloaded !== 'boolean'
+
     ) {
         errorsMessages.push({
             message: "string",
