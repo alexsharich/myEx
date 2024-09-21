@@ -90,7 +90,7 @@ describe('/courses',()=>{
 
     it('should delete video',async()=>{
         await request(app).delete('/videos/' + createdVideo.id).expect(HTTP_STATUSES.NO_CONTENT_204)
-        await request(app).get('/videos' + createdVideo.id).expect(HTTP_STATUSES.NOT_FOUND_404)
+        await request(app).get('/videos/' + createdVideo.id).expect(HTTP_STATUSES.NOT_FOUND_404)
         await request(app).get('/videos').expect(HTTP_STATUSES.OK_200,[createdVideoSecond])
     })
 
