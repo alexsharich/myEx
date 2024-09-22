@@ -2,7 +2,6 @@ import {Request} from "express";
 
 import {db} from "../db/db";
 import {VideoDBType} from "../db/video-db-type";
-import {Resolutions} from "../input-output-types/video-types";
 
 type UpdatingVideoType = {
     title: string,
@@ -15,53 +14,44 @@ type UpdatingVideoType = {
 
 export type RequestWithParamsAndBodyHW1<T, B> = Request<T, {}, B>
 
-const inputValidation = (video: any) => {
-    const errors = { // объект для сбора ошибок
-        errorsMessages: []
-    }
-// ...
-
-    if(!video.title
-        || video.title === null
-        || video.title.length > 40){
-        errors.errorsMessages.push({
-            message: 'error!!!!', field: 'title'
-        })
-    }
-    if(!video.author
-        ||video.author.length > 20
-        || video.author ===null){
-        errors.errorsMessages.push({
-            message: 'error!!!!', field: 'author'
-        })
-    }
-    if (!video.canBeDownloaded
-        || typeof video.canBeDownloaded !== 'boolean'
-    ) {
-        errors.errorsMessages.push({
-            message: 'error!!!!', field: 'canBeDownloaded'
-        })
-    }
-    return errors
-}
-
 
 export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
     id: string
 }, UpdatingVideoType>, res: any) => {
     const foundedVideo = db.videos.find((video: VideoDBType) => video.id === +req.params.id)
-
-    const errors = inputValidation(req.body)
-    if (errors.errorsMessages.length) { // если есть ошибки - отправляем ошибки
-        res
-            .status(400)
-            .json(errors)
-        return
-    }
-
+    const errorsMessages = []
     if (!foundedVideo) {
         res.sendStatus(404)
     }
+    if (!req.body.author || req.body.author.length > 20 || typeof req.body.author !== 'string') {
+        errorsMessages.push({
+            message: "string",
+            field: "author"
+        })
+        res.status(400).send({errorsMessages})
+    }
+    else if (!req.body.title
+        || typeof req.body.title !== 'string'
+        || req.body.title.length > 40
+    ) {
+        errorsMessages.push({
+            message: "string",
+            field: "title"
+        })
+        res.status(400).send({errorsMessages})
+
+    }
+    if (!req.body.canBeDownloaded
+|| typeof req.body.canBeDownloaded !== 'boolean'
+    ) {
+        errorsMessages.push({
+            message: "string",
+            field: "canBeDownloaded"
+        })
+        res.status(400).send({errorsMessages})
+        return
+    }
+
 
     foundedVideo.title = req.body.title,
         foundedVideo.author = req.body.author,
