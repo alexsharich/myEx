@@ -41,6 +41,11 @@ const inputValidation = (video: any) => {
             message: 'error!!!!', field: 'canBeDownloaded'
         })
     }
+    if (!isNaN(new Date(video.publicationDate).getTime())) {
+        errors.errorsMessages.push({
+            message: 'error!!!!', field: 'publicationDate'
+        })
+    }
     if (Number(video.minAgeRestriction) > 1
         ||Number(video.minAgeRestriction) < 18
         || typeof video.minAgeRestriction !== 'number'
