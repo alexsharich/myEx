@@ -80,7 +80,7 @@ export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
         foundedVideo.author = req.body.author,
         foundedVideo.availableResolutions = req.body.availableResolutions,
         foundedVideo.canBeDownloaded = req.body.canBeDownloaded || false,
-        foundedVideo.minAgeRestriction = req.body.minAgeRestriction,
+        foundedVideo.minAgeRestriction = req.body.minAgeRestriction || null,
         foundedVideo.publicationDate = req.body.publicationDate
 
     db.videos = db.videos.map((video: VideoDBType) => video.id === +req.params.id ? {...foundedVideo} : video)
