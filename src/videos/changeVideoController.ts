@@ -41,7 +41,7 @@ const inputValidation = (video: any) => {
             message: 'error!!!!', field: 'canBeDownloaded'
         })
     }
-    if (isNaN(new Date(video.publicationDate).getTime())) {
+    if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2}|Z)?$/.test(video.publicationDate) ) {
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'publicationDate'
         })
