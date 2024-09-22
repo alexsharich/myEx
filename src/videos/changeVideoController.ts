@@ -41,8 +41,8 @@ const inputValidation = (video: any) => {
             message: 'error!!!!', field: 'canBeDownloaded'
         })
     }
-    if (Number(video.minAgeRestriction) < 1
-        ||Number(video.minAgeRestriction) > 18
+    if (Number(video.minAgeRestriction) > 1
+        ||Number(video.minAgeRestriction) < 18
         || typeof video.minAgeRestriction !== 'number'
     ) {
         errors.errorsMessages.push({
