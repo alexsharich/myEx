@@ -46,8 +46,8 @@ const inputValidation = (video: any) => {
             message: 'error!!!!', field: 'publicationDate'
         })
     }
-    if (video.minAgeRestriction > 1
-        ||video.minAgeRestriction < 18
+    if ((+video.minAgeRestriction > 1)
+        || (+video.minAgeRestriction < 18)
     ) {
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'minAgeRestriction'
