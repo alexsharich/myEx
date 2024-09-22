@@ -35,11 +35,18 @@ const inputValidation = (video: any) => {
             message: 'error!!!!', field: 'author'
         })
     }
-    if (!video.canBeDownloaded
-        || typeof video.canBeDownloaded !== 'boolean'
+    if (typeof video.canBeDownloaded !== 'boolean'
     ) {
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'canBeDownloaded'
+        })
+    }
+    if (video.minAgeRestriction < 1
+        ||video.minAgeRestriction > 18
+        || typeof video.canBeDownloaded !== 'boolean'
+    ) {
+        errors.errorsMessages.push({
+            message: 'error!!!!', field: 'minAgeRestriction'
         })
     }
     return errors
@@ -67,7 +74,7 @@ export const changeVideoController = (req: RequestWithParamsAndBodyHW1<{
     foundedVideo.title = req.body.title,
         foundedVideo.author = req.body.author,
         foundedVideo.availableResolutions = req.body.availableResolutions,
-        foundedVideo.canBeDownloaded = req.body.canBeDownloaded,
+        foundedVideo.canBeDownloaded = req.body.canBeDownloaded || false,
         foundedVideo.minAgeRestriction = req.body.minAgeRestriction,
         foundedVideo.publicationDate = req.body.publicationDate
 
