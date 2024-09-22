@@ -35,7 +35,7 @@ const inputValidation = (video: any) => {
             message: 'error!!!!', field: 'author'
         })
     }
-    if (video.canBeDownloaded
+    if (!video.canBeDownloaded
         || typeof video.canBeDownloaded !== 'boolean'
     ) {
         errors.errorsMessages.push({
