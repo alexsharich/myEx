@@ -10,16 +10,18 @@ const inputValidation = (video: any) => {
     }
 // ...
 
-    if(!video.title
+    if (!video.title
         || typeof video.author !== 'string'
-        || video.title.length > 40){
+        || video.title.length >= 40
+        || video.author.length < 1) {
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'title'
         })
     }
-    if(!video.author
-        ||video.author.length > 20
-        || typeof video.author !== 'string'){
+    if (!video.author
+        || video.author.length >= 20
+        || video.author.length < 1
+        || typeof video.author !== 'string') {
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'author'
         })
@@ -31,7 +33,7 @@ const inputValidation = (video: any) => {
     //     })
     // }
     if (!Array.isArray(video.availableResolutions)
-        || video.availableResolutions.find(p => !Resolutions[p])){
+        || video.availableResolutions.find(p => !Resolutions[p])) {
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'availableResolutions'
         })
@@ -39,7 +41,7 @@ const inputValidation = (video: any) => {
     return errors
 }
 
-export const createVideoController = (req: Request<any, any, InputVideoType>, res:any) => {
+export const createVideoController = (req: Request<any, any, InputVideoType>, res: any) => {
     const errors = inputValidation(req.body)
     if (errors.errorsMessages.length) { // если есть ошибки - отправляем ошибки
         res
@@ -49,22 +51,22 @@ export const createVideoController = (req: Request<any, any, InputVideoType>, re
         // return res.status(400).json(errors)
     }
 
-const now = Date.now()
+    const now = Date.now()
     const createdAtISO = new Date(now).toISOString()
     const publicationDate = new Date(now)
-        publicationDate.setDate(publicationDate.getDate()+ 1)
-    const publicationDateISO =publicationDate.toISOString()
+    publicationDate.setDate(publicationDate.getDate() + 1)
+    const publicationDateISO = publicationDate.toISOString()
     // если всё ок - добавляем видео
 
-    const newVideo= {
-        id: +(new Date()) ,
-        title:req.body.title,
-        author:req.body.author,
-        createdAt:createdAtISO,
-        publicationDate:publicationDateISO,
-        canBeDownloaded:false,
-        minAgeRestriction:null,
-        availableResolutions:req.body.availableResolutions
+    const newVideo = {
+        id: +(new Date()),
+        title: req.body.title,
+        author: req.body.author,
+        createdAt: createdAtISO,
+        publicationDate: publicationDateISO,
+        canBeDownloaded: false,
+        minAgeRestriction: null,
+        availableResolutions: req.body.availableResolutions
     }
     db.videos.push(newVideo)
 

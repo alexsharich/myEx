@@ -15,22 +15,32 @@ type UpdatingVideoType = {
 
 export type RequestWithParamsAndBodyHW1<T, B> = Request<T, {}, B>
 
+function isValidateISODate(dateString) {
+    const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+    if (!isoDatePattern.test(dateString)) return false;
+
+    const date = new Date(dateString);
+    return date.toISOString().slice(0, 10) === dateString;
+}
+
 const inputValidation = (video: any) => {
     const errors = { // объект для сбора ошибок
         errorsMessages: []
     }
 // ...
 
-    if(!video.title
-        || video.title === null
-        || video.title.length > 40){
+    if (!video.title
+        || typeof video.title !== 'string'
+        || video.author.length < 1
+        || video.title.length >= 40) {
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'title'
         })
     }
-    if(!video.author
-        ||video.author.length > 20
-        || video.author ===null){
+    if (!video.author
+        || video.author.length >= 20
+        || video.author.length < 1
+        || typeof video.author !== 'string') {
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'author'
         })
@@ -41,13 +51,14 @@ const inputValidation = (video: any) => {
             message: 'error!!!!', field: 'canBeDownloaded'
         })
     }
-    if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2}|Z)?$/.test(video.publicationDate) || video.publicationDate.length !== 20 ) {
+    if (!isValidateISODate(video.publicationDate)) {
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'publicationDate'
         })
     }
-    if ((+video.minAgeRestriction < 1)
-        || (+video.minAgeRestriction > 18)
+    if (typeof video.minAgeRestriction !== 'number'
+        ||video.minAgeRestriction < 1
+        || video.minAgeRestriction > 18
     ) {
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'minAgeRestriction'
