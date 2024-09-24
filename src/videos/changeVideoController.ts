@@ -56,8 +56,13 @@ const inputValidation = (video: any) => {
     //         message: 'error!!!!', field: 'publicationDate'
     //     })
     // }
+    if (isValidateISODate(video.publicationDate)) {
+        errors.errorsMessages.push({
+            message: 'error!!!!', field: 'publicationDate'
+        })
+    }
     if (typeof video.minAgeRestriction !== 'number'
-        ||video.minAgeRestriction < 1
+        || video.minAgeRestriction < 1
         || video.minAgeRestriction > 18
     ) {
         errors.errorsMessages.push({
