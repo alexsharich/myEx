@@ -56,7 +56,7 @@ const inputValidation = (video: any) => {
     //         message: 'error!!!!', field: 'publicationDate'
     //     })
     // }
-    if (isValidateISODateTime(video.publicationDate)) {
+    if (!isValidateISODateTime(video.publicationDate)) {
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'publicationDate'
         })
