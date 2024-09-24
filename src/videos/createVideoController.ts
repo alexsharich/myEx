@@ -11,7 +11,7 @@ const inputValidation = (video: any) => {
 // ...
 
     if(!video.title
-        || video.title === null
+        || typeof video.author !== 'string'
         || video.title.length > 40){
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'title'
@@ -19,13 +19,19 @@ const inputValidation = (video: any) => {
     }
     if(!video.author
         ||video.author.length > 20
-        || video.author ===null){
+        || typeof video.author !== 'string'){
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'author'
         })
     }
-    if (!video.availableResolutions
-        || !video.availableResolutions.some(item => Object.values(Resolutions).includes(item))){
+    // if (!video.availableResolutions
+    //     || !video.availableResolutions.some(item => Object.values(Resolutions).includes(item))){
+    //     errors.errorsMessages.push({
+    //         message: 'error!!!!', field: 'availableResolutions'
+    //     })
+    // }
+    if (!Array.isArray(video.availableResolutions)
+        || video.availableResolutions.find(p => !Resolutions[p])){
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'availableResolutions'
         })
