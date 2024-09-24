@@ -63,7 +63,7 @@ export const createVideoController = (req: Request<any, any, InputVideoType>, re
         title: req.body.title,
         author: req.body.author,
         createdAt: createdAtISO,
-        publicationDate: publicationDateISO,
+        publicationDate: publicationDate,
         canBeDownloaded: false,
         minAgeRestriction: null,
         availableResolutions: req.body.availableResolutions
