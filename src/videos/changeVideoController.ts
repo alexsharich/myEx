@@ -15,12 +15,12 @@ type UpdatingVideoType = {
 
 export type RequestWithParamsAndBodyHW1<T, B> = Request<T, {}, B>
 
-function isValidateISODate(dateString) {
-    const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (!isoDatePattern.test(dateString)) return false;
+function isValidateISODateTime(dateTimeString) {
+    const isoDateTimePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/;
+    if (!isoDateTimePattern.test(dateTimeString)) return false;
 
-    const date = new Date(dateString);
-    return date.toISOString().slice(0, 10) === dateString;
+    const date = new Date(dateTimeString);
+    return date.toISOString() === dateTimeString;
 }
 
 const inputValidation = (video: any) => {
@@ -56,7 +56,7 @@ const inputValidation = (video: any) => {
     //         message: 'error!!!!', field: 'publicationDate'
     //     })
     // }
-    if (!isValidateISODate(video.publicationDate)) {
+    if (isValidateISODateTime(video.publicationDate)) {
         errors.errorsMessages.push({
             message: 'error!!!!', field: 'publicationDate'
         })
